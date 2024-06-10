@@ -20,6 +20,10 @@ class AlienInvasion:
         self.screen = pygame.display.set_mode(
             (self.settings.screen_width, self.settings.screen_height)
         )
+        #Use the codes below if you want the game screen to be displayed on full screen.
+        # self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        # self.settings.screen_width = self.screen.get_rect().width
+        # self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Alien Invasion")
 
         self.ship = Ship(self)
@@ -48,6 +52,7 @@ class AlienInvasion:
             elif event.type == pygame.KEYUP:
                 self._check_keyup_event(event)
 
+
     def _check_keydown_events(self, event):
         """Respond to key presses."""
         if event.key == pygame.K_RIGHT:
@@ -56,6 +61,8 @@ class AlienInvasion:
         if event.key == pygame.K_LEFT:
             #Move the ship to the left.
             self.ship.moving_left = True
+        if event.key == pygame.K_q:
+            sys.exit()
     
     def _check_keyup_event(self, event):
         """Respond to key releases."""
