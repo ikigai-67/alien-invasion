@@ -247,6 +247,7 @@ class AlienInvasion:
         else:
             self.game_active = False
             pygame.mouse.set_visible(True)
+            self.stats.store_high_score()
 
     def _check_aliens_bottom(self):
         """Check if any aliens have reached the bottom of the screen."""
