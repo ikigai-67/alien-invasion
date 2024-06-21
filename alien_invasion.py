@@ -86,7 +86,10 @@ class AlienInvasion:
         if button_clicked and not self.game_active:
             #Reset the game settings.
             self.settings.initialize_dynamic_settings()
+            self.stats.reset_stats()
             self.scoreboard.prep_score()
+            self.scoreboard.prep_level()
+            self.scoreboard.prep_ships()
             self._start_game()
 
     def _check_keydown_events(self, event):
@@ -102,7 +105,10 @@ class AlienInvasion:
         elif (event.key == pygame.K_p) and not self.game_active:
             #Reset the game settings.
             self.settings.initialize_dynamic_settings()
+            self.stats.reset_stats()
             self.scoreboard.prep_score()
+            self.scoreboard.prep_level()
+            self.scoreboard.prep_ships()
             self._start_game()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
@@ -158,12 +164,17 @@ class AlienInvasion:
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.scoreboard.prep_score()
+            self.scoreboard.check_high_score()
         #Repopulating the fleet.
         if not self.aliens:
             #Destroy the existing bullets and create a new fleet.
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
+            
+            #Increase the level by 1.
+            self.stats.level += 1
+            self.scoreboard.prep_level()
 
     def _create_alien(self, x_position, y_position):
         """Create an alien and place it in the row."""
@@ -220,6 +231,7 @@ class AlienInvasion:
         if self.stats.ships_left > 0:
             #Decrement ships_left.
             self.stats.ships_left -= 1
+            self.scoreboard.prep_ships()
 
             #Get rid of any remaining bullets and aliens.
             self.bullets.empty()
